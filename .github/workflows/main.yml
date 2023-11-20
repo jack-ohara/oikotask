@@ -26,5 +26,7 @@ jobs:
           npm install
 
       - name: SST deploy
+        env:
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
         run: |
           npx sst deploy --stage prod
