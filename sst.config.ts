@@ -98,7 +98,7 @@ export default {
           cognitoUserPoolClient.userPoolClientSecret.toString(),
         COGNITO_ISSUER: `https://cognito-idp.${stack.region}.amazonaws.com/${cognito.userPoolId}`,
         USER_POOL_ID: cognito.userPoolId,
-        NEXT_PUBLIC_SECRET: process.env.NEXTAUTH_SECRET!,
+        NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET!,
       };
 
       if (isProd) {

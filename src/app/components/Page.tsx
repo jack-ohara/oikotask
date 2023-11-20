@@ -28,7 +28,7 @@ export async function Page({
         </header>
       )}
       <main className="overflow-y-auto px-4">{children}</main>
-      <footer className="py-4">
+      <footer className="py-4 backdrop-blur-md bg-slate-600/20">
         <Navigation />
       </footer>
     </div>
