@@ -17,7 +17,7 @@ export default {
   stacks(app) {
     app.stack(function Site({ stack }) {
       const isProd = process.env.SST_STAGE === "prod";
-      const prodBaseUrl = "https://d23bon0t374v2e.cloudfront.net";
+      const prodBaseUrl = "https://d2omkrhunnhu2q.cloudfront.net";
 
       const cognitoUserPool = new UserPool(
         stack,
