@@ -11,3 +11,8 @@ const activateEvent = () => {
   });
 };
 activateEvent();
+
+const fetchEvent = () => {
+  self.addEventListener("fetch", (event) => {});
+};
+fetchEvent();
