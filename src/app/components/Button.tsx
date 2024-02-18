@@ -2,7 +2,6 @@
 
 import { ComponentProps } from "react";
 import { IconType } from "react-icons";
-import {} from "react-icons";
 
 type ButtonProps = ComponentProps<"button"> & {
   IconBefore?: IconType;
@@ -10,7 +9,7 @@ type ButtonProps = ComponentProps<"button"> & {
 export function Button({ IconBefore, children, ...baseProps }: ButtonProps) {
   return (
     <button
-      className="px-8 py-2 rounded-lg bg-primary-green hover:bg-secondary-green focus-within:bg-secondary-green flex flex-row gap-x-2 items-center justify-center"
+      className="px-8 py-3 rounded-lg bg-primary-green hover:bg-secondary-green focus-within:bg-secondary-green flex flex-row gap-x-2 items-center justify-center"
       {...baseProps}
     >
       {IconBefore && <IconBefore />} {children}

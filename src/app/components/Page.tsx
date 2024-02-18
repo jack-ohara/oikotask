@@ -1,27 +1,18 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../lib/auth";
-import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
 import { Navigation } from "./Navigation";
+import { getServerSession } from "next-auth";
 
 type PageProps = {
-  isProtected?: boolean;
   title?: string;
 };
 
-export async function Page({
-  isProtected = true,
-  title,
-  children,
-}: PropsWithChildren<PageProps>) {
-  const session = await getServerSession(authOptions);
+export async function Page({ title, children }: PropsWithChildren<PageProps>) {
+  const session = await getServerSession();
 
-  if (isProtected && !session) {
-    redirect("/signin");
-  }
-
-  return (
-    <div className="min-h-screen max-h-screen grid gap-3 grid-rows-[60px_1fr_70px]">
+  return session === null ? (
+    <main className="overflow-y-auto px-4">{children}</main>
+  ) : (
+    <div className="min-h-screen max-h-screen grid gap-3 grid-rows-[60px_1fr_94px]">
       {title && (
         <header className="text-center text-3xl grid items-center font-bold">
           <h1>{title}</h1>

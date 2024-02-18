@@ -1,25 +1,17 @@
-"use client";
-
-import { signIn } from "next-auth/react";
-import { PiSignIn } from "react-icons/pi";
-import { Button } from "@/app/components/Button";
+import { Page } from "../components/Page";
+import { SignInButton } from "../components/SignInButton";
 
 export default function SignIn() {
   return (
-    <main>
+    <Page>
       <div className="flex flex-col items-center justify-center pt-40">
         <div className="py-12 flex items-center">
           <h1 className="text-6xl">Oikotask</h1>
         </div>
         <div>
-          <Button
-            IconBefore={PiSignIn}
-            onClick={() => signIn("cognito", { callbackUrl: "/" })}
-          >
-            Sign in
-          </Button>
+          <SignInButton />
         </div>
       </div>
-    </main>
+    </Page>
   );
 }

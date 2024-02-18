@@ -99,6 +99,7 @@ export default {
         COGNITO_ISSUER: `https://cognito-idp.${stack.region}.amazonaws.com/${cognito.userPoolId}`,
         USER_POOL_ID: cognito.userPoolId,
         NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET!,
+        DDB_TABLE_NAME: oikoTable.tableName,
       };
 
       if (isProd) {
