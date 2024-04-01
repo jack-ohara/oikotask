@@ -9,13 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.0",
     "@aws-sdk/client-dynamodb": "^3.454.0",
     "@aws-sdk/lib-dynamodb": "^3.454.0",
+    "antd": "^5.14.1",
     "next": "14.0.3",
     "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^4.12.0"
+    "react-icons": "^4.12.0",
+    "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
     "@types/node": "^20",

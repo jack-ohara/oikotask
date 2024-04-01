@@ -19,6 +19,7 @@ const config: Config = {
         "primary-bg": colours.slate[900],
         "primary-text": colours.gray[200],
         "secondary-green": colours.emerald[700],
+        "primary-red": "#55251D",
       },
     },
   },
