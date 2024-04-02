@@ -11,10 +11,11 @@ const table = process.env.DDB_TABLE_NAME!;
 
 const detailsSortKey = "details";
 
-type User = {
+export type User = {
   id: string;
   householdId?: string | undefined;
   name: string;
+  displayName: string;
 };
 
 export async function get(id: string): Promise<User | undefined> {

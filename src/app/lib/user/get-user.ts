@@ -11,3 +11,7 @@ export async function getUser() {
 
   return await getUserFromDb(token.sub);
 }
+
+export async function getUserFromId(userId: string) {
+  return await getUserFromDb(userId);
+}

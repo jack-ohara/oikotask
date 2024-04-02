@@ -1,16 +1,13 @@
-import { getAuthToken } from "../auth";
 import { redirect } from "next/navigation";
-import { get as getUser } from "../db/user";
 import { get as getHouseholdFromDb } from "../db/household";
+import { getUser } from "../user/get-user";
 
 export async function getHousehold() {
-  const token = await getAuthToken();
+  const user = await getUser();
 
-  if (!token?.sub) {
+  if (!user) {
     redirect("/signin");
   }
-
-  const user = await getUser(token.sub);
 
   if (!user?.householdId) {
     return undefined;

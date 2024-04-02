@@ -10,5 +10,9 @@ export async function tryAddUser() {
     redirect("/signin");
   }
 
-  await upsertUser({ id: token.sub, name: token.email });
+  await upsertUser({
+    id: token.sub,
+    name: token.email,
+    displayName: "Harambe",
+  });
 }

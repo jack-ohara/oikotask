@@ -1,19 +1,32 @@
 "use client";
 
-import { Input, Modal, Tooltip } from "antd";
+import { Input, Modal, Select, SelectProps, Tooltip } from "antd";
 import { Button } from "antd";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { createTask } from "../actions/create-task";
+import { User } from "../lib/db/user";
 
 // TODO: Push the task to the api - server action?
 
-export function AddTask() {
+type AddTaskProps = {
+  householdUsers: User[];
+};
+
+export function AddTask({ householdUsers }: AddTaskProps) {
   const [formIsOpen, setFormIsOpen] = useState(false);
   const [taskDescription, setTaskDescription] = useState("");
 
-  useEffect(() => {
-    console.log({ taskDescription });
-  }, [taskDescription]);
+  const userOptions = useMemo(
+    (): SelectProps["options"] =>
+      householdUsers.map((user) => ({
+        label: user.displayName,
+        value: user.id,
+      })),
+    [householdUsers]
+  );
+
+  const [assignTo, setAssignTo] = useState(userOptions![0].value as string);
 
   return (
     <div className="flex justify-end">
@@ -21,17 +34,34 @@ export function AddTask() {
         open={formIsOpen}
         onCancel={() => setFormIsOpen(false)}
         afterClose={() => setFormIsOpen(false)}
+        onOk={() => {
+          createTask({
+            description: taskDescription,
+            assignedTo: assignTo,
+          }).then((t) => {
+            console.log(t);
+            setFormIsOpen(false);
+          });
+        }}
         centered
         title="Add a new task"
         okText="Create"
       >
-        <Input
-          autoFocus
-          type="text"
-          placeholder="Description"
-          value={taskDescription}
-          onChange={(e) => setTaskDescription(e.target.value)}
-        />
+        <form className="flex flex-col gap-4">
+          <Input
+            autoFocus
+            type="text"
+            placeholder="Description"
+            value={taskDescription}
+            onChange={(e) => setTaskDescription(e.target.value)}
+          />
+
+          <Select
+            options={userOptions}
+            value={assignTo}
+            onChange={(e) => setAssignTo(e)}
+          />
+        </form>
       </Modal>
       <Tooltip title="Add a new task">
         <Button
