@@ -26,7 +26,7 @@ export default async function HouseholdPage() {
       ) : (
         <>
           <p className="pb-4">
-            It looks like you're not part of a household yet...
+            It looks like you&apos;re not part of a household yet...
           </p>
 
           <div className="flex flex-col gap-4">
