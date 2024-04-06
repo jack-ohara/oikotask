@@ -10,9 +10,13 @@ export async function tryAddUser() {
     redirect("/signin");
   }
 
-  await upsertUser({
+  const user = {
     id: token.sub,
     name: token.email,
     displayName: "Harambe",
-  });
+  };
+
+  await upsertUser(user);
+
+  return user;
 }

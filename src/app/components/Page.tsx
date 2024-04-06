@@ -12,11 +12,7 @@ export async function Page({ title, children }: PropsWithChildren<PageProps>) {
   return session === null ? (
     <main className="overflow-y-auto px-4">{children}</main>
   ) : (
-    <div
-      className={`min-h-screen max-h-screen grid gap-3 grid-rows-[${
-        title ? "60px_1fr_110px" : "1fr_110px"
-      }]`}
-    >
+    <div className="min-h-screen max-h-screen grid gap-3 grid-rows-[60px_1fr_110px]">
       {title && (
         <header className="text-center text-3xl grid items-center font-bold">
           <h1>{title}</h1>
