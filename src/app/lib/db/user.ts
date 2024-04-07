@@ -16,6 +16,7 @@ export type User = {
   householdId?: string | undefined;
   name: string;
   displayName: string;
+  colour: string;
 };
 
 export async function get(id: string): Promise<User | undefined> {

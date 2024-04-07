@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { getUser } from "../lib/user/get-user";
 import { upsert as upsertTask } from "../lib/db/task";
+import { revalidatePath } from "next/cache";
 
 type NewTask = {
   description: string;
@@ -15,5 +16,12 @@ export async function createTask(task: NewTask) {
   if (!user) redirect("/signin");
   if (!user.householdId) redirect("/household");
 
-  return await upsertTask({ ...task, isComplete: false }, user.householdId);
+  const result = await upsertTask(
+    { ...task, isComplete: false },
+    user.householdId
+  );
+
+  revalidatePath("/", "layout");
+
+  return result;
 }

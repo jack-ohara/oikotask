@@ -2,13 +2,11 @@
 
 import { Input, Modal, Select, SelectProps, Tooltip } from "antd";
 import { Button } from "antd";
-import { useCallback, useContext, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { createTask } from "../actions/create-task";
 import { User } from "../lib/db/user";
 import { TasksContext } from "./tasksContext";
-
-// TODO: Push the task to the api - server action?
 
 type AddTaskProps = {
   householdUsers: User[];
@@ -16,6 +14,7 @@ type AddTaskProps = {
 
 export function AddTask({ householdUsers }: AddTaskProps) {
   const [formIsOpen, setFormIsOpen] = useState(false);
+  const [taskIsBeingCreated, setTaskIsBeingCreated] = useState(false);
   const [taskDescription, setTaskDescription] = useState("");
   const { addTask: addNewTask } = useContext(TasksContext);
 
@@ -31,6 +30,7 @@ export function AddTask({ householdUsers }: AddTaskProps) {
   const [assignTo, setAssignTo] = useState(userOptions![0].value as string);
 
   const handleAddTask = async () => {
+    setTaskIsBeingCreated(true);
     const newTaskId = await createTask({
       description: taskDescription,
       assignedTo: assignTo,
@@ -42,6 +42,7 @@ export function AddTask({ householdUsers }: AddTaskProps) {
       assignedTo: assignTo,
       isComplete: false,
     });
+    setTaskIsBeingCreated(false);
     setFormIsOpen(false);
     setTaskDescription("");
     setAssignTo(userOptions![0].value as string);
@@ -54,6 +55,8 @@ export function AddTask({ householdUsers }: AddTaskProps) {
         onCancel={() => setFormIsOpen(false)}
         afterClose={() => setFormIsOpen(false)}
         onOk={() => handleAddTask()}
+        okButtonProps={{ loading: taskIsBeingCreated }}
+        cancelButtonProps={{ disabled: taskIsBeingCreated }}
         centered
         title="Add a new task"
         okText="Create"

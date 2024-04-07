@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getAuthToken } from "../auth";
 import { upsert as upsertUser } from "../db/user";
+import { faker } from "@faker-js/faker";
 
 export async function tryAddUser() {
   const token = await getAuthToken();
@@ -13,7 +14,8 @@ export async function tryAddUser() {
   const user = {
     id: token.sub,
     name: token.email,
-    displayName: "Harambe",
+    displayName: faker.person.firstName(),
+    colour: faker.color.rgb(),
   };
 
   await upsertUser(user);
