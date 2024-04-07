@@ -2,10 +2,11 @@
 
 import { Input, Modal, Select, SelectProps, Tooltip } from "antd";
 import { Button } from "antd";
-import { useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { createTask } from "../actions/create-task";
 import { User } from "../lib/db/user";
+import { TasksContext } from "./tasksContext";
 
 // TODO: Push the task to the api - server action?
 
@@ -16,6 +17,7 @@ type AddTaskProps = {
 export function AddTask({ householdUsers }: AddTaskProps) {
   const [formIsOpen, setFormIsOpen] = useState(false);
   const [taskDescription, setTaskDescription] = useState("");
+  const { addTask: addNewTask } = useContext(TasksContext);
 
   const userOptions = useMemo(
     (): SelectProps["options"] =>
@@ -28,20 +30,30 @@ export function AddTask({ householdUsers }: AddTaskProps) {
 
   const [assignTo, setAssignTo] = useState(userOptions![0].value as string);
 
+  const handleAddTask = async () => {
+    const newTaskId = await createTask({
+      description: taskDescription,
+      assignedTo: assignTo,
+    });
+
+    addNewTask({
+      id: newTaskId,
+      description: taskDescription,
+      assignedTo: assignTo,
+      isComplete: false,
+    });
+    setFormIsOpen(false);
+    setTaskDescription("");
+    setAssignTo(userOptions![0].value as string);
+  };
+
   return (
     <div className="flex justify-end pb-4 absolute bottom-[110px] right-6">
       <Modal
         open={formIsOpen}
         onCancel={() => setFormIsOpen(false)}
         afterClose={() => setFormIsOpen(false)}
-        onOk={() => {
-          createTask({
-            description: taskDescription,
-            assignedTo: assignTo,
-          }).then((t) => {
-            setFormIsOpen(false);
-          });
-        }}
+        onOk={() => handleAddTask()}
         centered
         title="Add a new task"
         okText="Create"

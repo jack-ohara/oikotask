@@ -65,6 +65,7 @@ export async function getInHousehold(householdId: string) {
       ":pk": `task/household/${householdId}`,
     },
     ConsistentRead: true,
+    ScanIndexForward: false,
   });
 
   const result = await client.send(get);

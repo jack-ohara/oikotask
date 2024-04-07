@@ -2,11 +2,12 @@
 
 import { Checkbox, List } from "antd";
 import { TaskHeadline } from "../lib/db/task";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { AddTask } from "./AddTask";
 import { User } from "../lib/db/user";
 import { AnimatePresence, motion } from "framer-motion";
 import { completeTask } from "../actions/update-task";
+import { TasksContext } from "./tasksContext";
 
 const { Item: ListItem } = List;
 
@@ -50,11 +51,11 @@ function TaskListItem({ task, removeTask, householdId }: TaskListItemProps) {
 }
 
 type TaskListProps = {
-  tasks: TaskHeadline[];
   householdUsers: User[];
 };
 
-export function TaskList({ tasks, householdUsers }: TaskListProps) {
+export function TaskList({ householdUsers }: TaskListProps) {
+  const { tasks } = useContext(TasksContext);
   const [listOfTasks, setListOfTasks] = useState(
     tasks.filter((t) => !t.isComplete)
   );
@@ -62,6 +63,10 @@ export function TaskList({ tasks, householdUsers }: TaskListProps) {
   const removeTask = useCallback((taskId: string) => {
     setListOfTasks((curr) => curr.filter((t) => t.id !== taskId));
   }, []);
+
+  useEffect(() => {
+    setListOfTasks(tasks.filter((t) => !t.isComplete));
+  }, [tasks]);
 
   return (
     <div className="grow overflow-y-auto">
