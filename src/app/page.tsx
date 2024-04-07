@@ -24,8 +24,7 @@ export default async function Home() {
     <Page title="Schedule">
       <div className="flex flex-col justify-between h-full">
         <h3 className="text-xl">Tasks</h3>
-        <TaskList tasks={tasks} />
-        <AddTask householdUsers={householdUsers} />
+        <TaskList tasks={tasks} householdUsers={householdUsers} />
       </div>
     </Page>
   );

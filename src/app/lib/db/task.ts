@@ -3,14 +3,15 @@ import {
   DynamoDBDocumentClient,
   QueryCommand,
   PutCommand,
+  UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
-import { randomUUID } from "crypto";
+import KSUID from "ksuid";
 
 const ddbClinet = new DynamoDBClient({});
 const client = DynamoDBDocumentClient.from(ddbClinet);
 const tableName = process.env.DDB_TABLE_NAME!;
 
-type Task = {
+export type Task = {
   id: string;
   description: string;
   assignedTo: string;
@@ -24,10 +25,10 @@ export async function upsert(
   householdId: string
 ) {
   if (!("id" in task)) {
-    const newId = randomUUID();
+    const newId = await KSUID.random();
     task = {
       ...task,
-      id: newId,
+      id: newId.string,
     };
   }
 
@@ -69,4 +70,30 @@ export async function getInHousehold(householdId: string) {
   const result = await client.send(get);
 
   return result.Items as (TaskHeadline | undefined)[];
+}
+
+export async function complete(taskId: string, householdId: string) {
+  const updateInHousehold = new UpdateCommand({
+    TableName: tableName,
+    Key: {
+      pk: `task/household/${householdId}`,
+      sk: taskId,
+    },
+    AttributeUpdates: {
+      isComplete: { Value: true },
+    },
+  });
+
+  const update = new UpdateCommand({
+    TableName: tableName,
+    Key: {
+      pk: "task/details",
+      sk: taskId,
+    },
+    AttributeUpdates: {
+      isComplete: { Value: true },
+    },
+  });
+
+  await Promise.all([client.send(updateInHousehold), client.send(update)]);
 }

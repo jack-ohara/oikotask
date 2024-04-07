@@ -29,7 +29,7 @@ export function AddTask({ householdUsers }: AddTaskProps) {
   const [assignTo, setAssignTo] = useState(userOptions![0].value as string);
 
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-end pb-4 absolute bottom-[110px] right-6">
       <Modal
         open={formIsOpen}
         onCancel={() => setFormIsOpen(false)}
@@ -39,7 +39,6 @@ export function AddTask({ householdUsers }: AddTaskProps) {
             description: taskDescription,
             assignedTo: assignTo,
           }).then((t) => {
-            console.log(t);
             setFormIsOpen(false);
           });
         }}
