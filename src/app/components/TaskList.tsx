@@ -8,6 +8,7 @@ import { User } from "../lib/db/user";
 import { AnimatePresence, motion } from "framer-motion";
 import { completeTask } from "../actions/update-task";
 import { TasksContext } from "./tasksContext";
+import { ColourCircle } from "./ColourCircle";
 
 const { Item: ListItem } = List;
 
@@ -40,11 +41,19 @@ function TaskListItem({ task, removeTask, householdId }: TaskListItemProps) {
     >
       <Checkbox
         onChange={() => handleOnCheckboxChanged()}
-        className="gap-3 w-full !py-4"
+        className="gap-3 w-full !py-4 [&>span:not(.ant-checkbox)]:w-full"
       >
-        <motion.span exit={{ opacity: 0.3 }} transition={{ duration: 0.3 }}>
-          {task.description}
-        </motion.span>
+        <span className="flex justify-between gap-2">
+          <motion.span
+            exit={{ opacity: 0.3 }}
+            transition={{ duration: 0.3 }}
+            className="test1"
+          >
+            {task.description}
+          </motion.span>
+
+          <ColourCircle colour={task.assigneeColour} size={22} />
+        </span>
       </Checkbox>
     </MotionListItem>
   );

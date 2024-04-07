@@ -8,6 +8,7 @@ import { revalidatePath } from "next/cache";
 type NewTask = {
   description: string;
   assignedTo: string;
+  assigneeColour: string;
 };
 
 export async function createTask(task: NewTask) {

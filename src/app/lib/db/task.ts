@@ -16,9 +16,13 @@ export type Task = {
   description: string;
   assignedTo: string;
   isComplete: boolean;
+  assigneeColour: string;
 };
 
-export type TaskHeadline = Pick<Task, "id" | "description" | "isComplete">;
+export type TaskHeadline = Pick<
+  Task,
+  "id" | "description" | "isComplete" | "assigneeColour"
+>;
 
 export async function upsert(
   task: Omit<Task, "id"> | Task,
@@ -40,6 +44,7 @@ export async function upsert(
       id: task.id,
       description: task.description,
       isComplete: task.isComplete,
+      assigneeColour: task.assigneeColour,
     },
   });
 

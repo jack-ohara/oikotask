@@ -7,10 +7,13 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { createTask } from "../actions/create-task";
 import { User } from "../lib/db/user";
 import { TasksContext } from "./tasksContext";
+import { ColourCircle } from "./ColourCircle";
 
 type AddTaskProps = {
   householdUsers: User[];
 };
+
+type LabelRender = SelectProps["labelRender"];
 
 export function AddTask({ householdUsers }: AddTaskProps) {
   const [formIsOpen, setFormIsOpen] = useState(false);
@@ -23,17 +26,23 @@ export function AddTask({ householdUsers }: AddTaskProps) {
       householdUsers.map((user) => ({
         label: user.displayName,
         value: user.id,
+        icon: <ColourCircle colour={user.colour} size={16} />,
       })),
     [householdUsers]
   );
 
   const [assignTo, setAssignTo] = useState(userOptions![0].value as string);
+  const selectedUser = useMemo(
+    () => householdUsers.find((u) => u.id === assignTo)!,
+    [assignTo]
+  );
 
   const handleAddTask = async () => {
     setTaskIsBeingCreated(true);
     const newTaskId = await createTask({
       description: taskDescription,
       assignedTo: assignTo,
+      assigneeColour: selectedUser.colour,
     });
 
     addNewTask({
@@ -41,11 +50,21 @@ export function AddTask({ householdUsers }: AddTaskProps) {
       description: taskDescription,
       assignedTo: assignTo,
       isComplete: false,
+      assigneeColour: selectedUser.colour,
     });
     setTaskIsBeingCreated(false);
     setFormIsOpen(false);
     setTaskDescription("");
     setAssignTo(userOptions![0].value as string);
+  };
+
+  const labelRender: LabelRender = ({ label }) => {
+    return (
+      <span className="flex gap-2 items-center">
+        <ColourCircle colour={selectedUser.colour} size={22} />
+        {label}
+      </span>
+    );
   };
 
   return (
@@ -74,6 +93,13 @@ export function AddTask({ householdUsers }: AddTaskProps) {
             options={userOptions}
             value={assignTo}
             onChange={(e) => setAssignTo(e)}
+            optionRender={(option) => (
+              <span className="flex gap-2 items-center">
+                {option.data.icon}
+                <span>{option.label}</span>
+              </span>
+            )}
+            labelRender={labelRender}
           />
         </form>
       </Modal>
