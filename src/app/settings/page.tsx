@@ -1,7 +1,7 @@
-import { Page } from "../components/Page";
-import { SignOutButton } from "../components/SignOutButton";
-import { UserSettings } from "../components/UserSettings";
-import { getUser } from "../lib/user/get-user";
+import { Page } from "@/components/Page";
+import { SignOutButton } from "@/components/SignOutButton";
+import { UserSettings } from "@/components/UserSettings";
+import { getUser } from "@/lib/user/get-user";
 
 export default async function SettingsPage() {
   const user = await getUser();

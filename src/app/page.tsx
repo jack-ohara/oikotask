@@ -1,11 +1,11 @@
 import { Page } from "@components";
-import { getHousehold } from "./lib/household/get-household";
+import { getHousehold } from "@/lib/household/get-household";
 import { redirect } from "next/navigation";
-import { getUserFromId } from "./lib/user/get-user";
-import { User } from "./lib/db/user";
-import { getTasksForHousehold } from "./lib/task/get-task";
-import { TaskList } from "./components/TaskList";
-import { TasksProvider } from "./components/tasksContext";
+import { getUserFromId } from "@/lib/user/get-user";
+import { User } from "@/lib/db/user";
+import { getTasksForHousehold } from "@/lib/task/get-task";
+import { TaskList } from "@/components/TaskList";
+import { TasksProvider } from "@/components/tasksContext";
 
 function isUser(user: User | undefined): user is User {
   return !!user;

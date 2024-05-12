@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import NextAuthProvider from "./components/NextAuthProvider";
+import NextAuthProvider from "@/components/NextAuthProvider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ConfigProvider, theme } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,6 +10,7 @@ export const metadata: Metadata = {
   title: "Oikotask",
   description: "Oikotask home management",
   manifest: "manifest.json",
+  icons: "./logo_192x192.png",
 };
 
 export default async function RootLayout({

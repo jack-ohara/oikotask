@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
-import { Page } from "../components/Page";
-import { createHousehold } from "../lib/household/create-household";
-import { getHousehold } from "../lib/household/get-household";
+import { Page } from "@/components/Page";
+import { createHousehold } from "@/lib/household/create-household";
+import { getHousehold } from "@/lib/household/get-household";
 import { Button, Input } from "antd";
 
 // TODO: Add support for inviting users
