@@ -15,7 +15,7 @@
     "antd": "^5.16.1",
     "framer-motion": "^11.0.25",
     "ksuid": "^3.0.0",
-    "next": "14.0.3",
+    "next": "^14.2.3",
     "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18",
