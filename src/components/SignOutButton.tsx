@@ -1,17 +1,16 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { signOut } from "next-auth/react";
-import { Button } from "antd";
 import { PiSignOut } from "react-icons/pi";
 
 export function SignOutButton() {
   return (
     <Button
-      icon={<PiSignOut />}
-      type="primary"
-      className="!flex !items-center justify-center"
+      className="flex items-center gap-x-2 justify-center"
       onClick={() => signOut()}
     >
+      <PiSignOut />
       Sign out
     </Button>
   );

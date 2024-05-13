@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import NextAuthProvider from "@/components/NextAuthProvider";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,12 +19,15 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} bg-primary-bg min-h-screen text-gray-300 font-semibold`}
-      >
-        <AntdRegistry>
-          <NextAuthProvider>{children}</NextAuthProvider>
-        </AntdRegistry>
+      <body className={`${inter.className} min-h-screen font-semibold`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

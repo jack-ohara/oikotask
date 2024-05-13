@@ -5,6 +5,7 @@ import { User } from "../lib/db/user";
 import { useMemo, useState } from "react";
 import { AiOutlineSave } from "react-icons/ai";
 import { updateUser } from "../actions/update-user";
+import { ThemeToggle } from "./ThemeToggle";
 
 const { Title } = Typography;
 
@@ -59,6 +60,8 @@ export function UserSettings({ user }: UserSettingsProps) {
           value={newColour}
           onChange={(e) => setNewColour(e.toHexString())}
         />
+
+        <ThemeToggle />
 
         <Button
           icon={<AiOutlineSave />}

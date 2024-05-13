@@ -1,18 +1,13 @@
 "use client";
 
-import { Checkbox, List } from "antd";
+import { Checkbox } from "@/components/ui/checkbox";
 import { TaskHeadline } from "../lib/db/task";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { AddTask } from "./AddTask";
+import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import { User } from "../lib/db/user";
-import { AnimatePresence, motion } from "framer-motion";
 import { completeTask } from "../actions/update-task";
 import { TasksContext } from "./tasksContext";
 import { ColourCircle } from "./ColourCircle";
-
-const { Item: ListItem } = List;
-
-const MotionListItem = motion(ListItem);
+import { Separator } from "@/components/ui/separator";
 
 type TaskListItemProps = {
   task: TaskHeadline;
@@ -27,35 +22,23 @@ function TaskListItem({ task, removeTask, householdId }: TaskListItemProps) {
   }, []);
 
   return (
-    <MotionListItem
-      className="!p-0"
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 1 }}
-      exit={{
-        opacity: 0,
-        height: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-      }}
-      transition={{ duration: 0.4, delay: 0.3 }}
-    >
-      <Checkbox
-        onChange={() => handleOnCheckboxChanged()}
-        className="gap-3 w-full !py-4 [&>span:not(.ant-checkbox)]:w-full"
-      >
-        <span className="flex justify-between gap-2">
-          <motion.span
-            exit={{ opacity: 0.3 }}
-            transition={{ duration: 0.3 }}
-            className="test1"
-          >
-            {task.description}
-          </motion.span>
+    <li className="flex justify-between items-center py-2">
+      <span className="flex items-center gap-x-4">
+        <Checkbox
+          onChange={() => handleOnCheckboxChanged()}
+          className=""
+          id={`task-${task.id}`}
+        />
+        <label
+          className="flex justify-between gap-2"
+          htmlFor={`task-${task.id}`}
+        >
+          {task.description}
+        </label>
+      </span>
 
-          <ColourCircle colour={task.assigneeColour} size={22} />
-        </span>
-      </Checkbox>
-    </MotionListItem>
+      <ColourCircle colour={task.assigneeColour} size={22} />
+    </li>
   );
 }
 
@@ -79,19 +62,18 @@ export function TaskList({ householdUsers }: TaskListProps) {
 
   return (
     <div className="grow overflow-y-auto">
-      <List>
-        <AnimatePresence>
-          {listOfTasks.map((task) => (
+      <ul className="flex flex-col gap-y-1">
+        {listOfTasks.map((task) => (
+          <Fragment key={task.id}>
             <TaskListItem
-              key={task.id}
               task={task}
               removeTask={removeTask}
               householdId={householdUsers[0].householdId!}
             />
-          ))}
-        </AnimatePresence>
-      </List>
-      <AddTask householdUsers={householdUsers} />
+            <Separator className="last-of-type:hidden" />
+          </Fragment>
+        ))}
+      </ul>
     </div>
   );
 }

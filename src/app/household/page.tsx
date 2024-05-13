@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import { Page } from "@/components/Page";
 import { createHousehold } from "@/lib/household/create-household";
 import { getHousehold } from "@/lib/household/get-household";
-import { Button, Input } from "antd";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 // TODO: Add support for inviting users
 // TODO: Add support for leaving your household
@@ -39,11 +40,8 @@ export default async function HouseholdPage() {
                 id="new-household-name"
                 name="new-houshold-name"
                 placeholder="New household name"
-                size="large"
               />
-              <Button htmlType="submit" type="primary">
-                Create
-              </Button>
+              <Button type="submit">Create</Button>
             </form>
           </div>
         </>
