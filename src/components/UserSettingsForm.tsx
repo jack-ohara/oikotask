@@ -16,6 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AiOutlineSave } from "react-icons/ai";
 import { z } from "zod";
+import { useState } from "react";
+import { updateUser } from "@/actions/update-user";
 
 const formSchema = z.object({
   displayName: z.string().min(1).max(35),
@@ -27,6 +29,8 @@ type UserSettingsFormProps = {
 };
 
 export function UserSettingsForm({ user }: UserSettingsFormProps) {
+  const [isUpdatingUser, setIsUpdatingUser] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,7 +40,11 @@ export function UserSettingsForm({ user }: UserSettingsFormProps) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log({ values });
+    setIsUpdatingUser(true);
+
+    await updateUser(user, values);
+
+    setIsUpdatingUser(false);
   }
 
   return (
@@ -73,8 +81,7 @@ export function UserSettingsForm({ user }: UserSettingsFormProps) {
         />
 
         <Button
-          //   disabled={!isSaveable}
-          //   loading={isUpdatingUser}
+          loading={isUpdatingUser}
           type="submit"
           className="self-stretch flex items-center justify-center gap-x-2"
         >
