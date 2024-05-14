@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ant-design/nextjs-registry": "^1.0.0",
     "@aws-sdk/client-dynamodb": "^3.454.0",
     "@aws-sdk/lib-dynamodb": "^3.454.0",
     "@hookform/resolvers": "^3.3.4",
@@ -21,7 +20,6 @@
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.0.7",
-    "antd": "^5.16.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "ksuid": "^3.0.0",
