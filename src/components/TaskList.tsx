@@ -19,7 +19,7 @@ function TaskListItem({ task, removeTask, householdId }: TaskListItemProps) {
   const handleOnCheckboxChanged = useCallback(() => {
     removeTask(task.id);
     completeTask(task.id, householdId);
-  }, []);
+  }, [task.id, householdId, removeTask]);
 
   return (
     <li className="flex justify-between items-center py-2">

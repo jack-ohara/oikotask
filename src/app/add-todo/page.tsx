@@ -9,7 +9,7 @@ function isUser(user: User | undefined): user is User {
   return !!user;
 }
 
-export default async function () {
+export default async function AddToDoPage() {
   const household = await getHousehold();
 
   if (!household) redirect("/household");

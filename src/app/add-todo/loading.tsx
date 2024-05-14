@@ -1,7 +1,7 @@
 import { Page } from "@/components";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function () {
+export default function AddToDoLoading() {
   return (
     <Page title="Add ToDo">
       <div className="flex flex-col gap-y-4">
