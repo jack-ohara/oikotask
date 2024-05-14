@@ -25,8 +25,7 @@ function TaskListItem({ task, removeTask, householdId }: TaskListItemProps) {
     <li className="flex justify-between items-center py-2">
       <span className="flex items-center gap-x-4">
         <Checkbox
-          onChange={() => handleOnCheckboxChanged()}
-          className=""
+          onCheckedChange={() => handleOnCheckboxChanged()}
           id={`task-${task.id}`}
         />
         <label
