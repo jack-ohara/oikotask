@@ -8,6 +8,7 @@ import { completeTask } from "../actions/update-task";
 import { TasksContext } from "./tasksContext";
 import { ColourCircle } from "./ColourCircle";
 import { Separator } from "@/components/ui/separator";
+import { AnimatePresence, motion } from "framer-motion";
 
 type TaskListItemProps = {
   task: TaskHeadline;
@@ -18,26 +19,40 @@ type TaskListItemProps = {
 function TaskListItem({ task, removeTask, householdId }: TaskListItemProps) {
   const handleOnCheckboxChanged = useCallback(() => {
     removeTask(task.id);
-    completeTask(task.id, householdId);
+    // completeTask(task.id, householdId);
   }, [task.id, householdId, removeTask]);
 
   return (
-    <li className="flex justify-between items-center py-2">
+    <motion.li
+      className="flex justify-between items-center py-2"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 1 }}
+      exit={{
+        opacity: 0,
+        height: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+      }}
+      transition={{ duration: 0.4, delay: 0.3 }}
+    >
       <span className="flex items-center gap-x-4">
         <Checkbox
           onCheckedChange={() => handleOnCheckboxChanged()}
           id={`task-${task.id}`}
+          className="h-6 w-6 rounded-full"
         />
-        <label
+        <motion.label
           className="flex justify-between gap-2"
           htmlFor={`task-${task.id}`}
+          exit={{ opacity: 0.3 }}
+          transition={{ duration: 0.3 }}
         >
           {task.description}
-        </label>
+        </motion.label>
       </span>
 
       <ColourCircle colour={task.assigneeColour} size={22} />
-    </li>
+    </motion.li>
   );
 }
 
@@ -62,16 +77,18 @@ export function TaskList({ householdUsers }: TaskListProps) {
   return (
     <div className="grow overflow-y-auto">
       <ul className="flex flex-col gap-y-1">
-        {listOfTasks.map((task) => (
-          <Fragment key={task.id}>
-            <TaskListItem
-              task={task}
-              removeTask={removeTask}
-              householdId={householdUsers[0].householdId!}
-            />
-            <Separator className="last-of-type:hidden" />
-          </Fragment>
-        ))}
+        <AnimatePresence>
+          {listOfTasks.map((task) => (
+            <Fragment key={task.id}>
+              <TaskListItem
+                task={task}
+                removeTask={removeTask}
+                householdId={householdUsers[0].householdId!}
+              />
+              <Separator className="last-of-type:hidden" />
+            </Fragment>
+          ))}
+        </AnimatePresence>
       </ul>
     </div>
   );
