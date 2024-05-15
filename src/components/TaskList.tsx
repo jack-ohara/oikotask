@@ -19,7 +19,7 @@ type TaskListItemProps = {
 function TaskListItem({ task, removeTask, householdId }: TaskListItemProps) {
   const handleOnCheckboxChanged = useCallback(() => {
     removeTask(task.id);
-    // completeTask(task.id, householdId);
+    completeTask(task.id, householdId);
   }, [task.id, householdId, removeTask]);
 
   return (

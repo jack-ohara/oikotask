@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description: "Oikotask home management",
   manifest: "manifest.json",
   icons: "./logo_192x192.png",
+  appleWebApp: true,
 };
 
 export default async function RootLayout({
