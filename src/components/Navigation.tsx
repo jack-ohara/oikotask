@@ -12,9 +12,13 @@ type NavItemProps = {
   label: string;
 };
 
+const activeRouteMap: Record<string, string> = {
+  "/add-todo": "/",
+};
+
 function NavItem({ href, Icon, label }: NavItemProps) {
   const pathname = usePathname();
-  const isActive = href === pathname;
+  const isActive = href === pathname || activeRouteMap[pathname] === href;
 
   return (
     <li>
@@ -35,7 +39,7 @@ export function Navigation() {
   return (
     <nav>
       <ul className="flex justify-around">
-        <NavItem href="/" Icon={FaListCheck} label="Schedule" />
+        <NavItem href="/" Icon={FaListCheck} label="ToDo list" />
         <NavItem href="/household" Icon={FaUsers} label="Household" />
         <NavItem href="/settings" Icon={IoIosSettings} label="Settings" />
       </ul>

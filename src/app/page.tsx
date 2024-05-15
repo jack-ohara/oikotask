@@ -31,7 +31,7 @@ export default async function Home() {
   ]);
 
   return (
-    <Page title="Schedule">
+    <Page title="ToDo list">
       <TasksProvider initialTasks={tasks}>
         <div className="flex flex-col justify-between h-full">
           <h3 className="text-xl">Tasks</h3>
@@ -41,7 +41,7 @@ export default async function Home() {
             <TooltipProvider delayDuration={0}>
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Link href="/add-todo">
+                  <Link href="/add-todo" prefetch>
                     <Button size="icon" className="rounded-full">
                       <AiOutlinePlus />
                     </Button>
