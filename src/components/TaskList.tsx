@@ -10,6 +10,8 @@ import { ColourCircle } from "./ColourCircle";
 import { Separator } from "@/components/ui/separator";
 import { AnimatePresence, motion } from "framer-motion";
 
+const MotionSeparator = motion(Separator);
+
 type TaskListItemProps = {
   task: TaskHeadline;
   removeTask: (taskId: string) => void;
@@ -85,7 +87,18 @@ export function TaskList({ householdUsers }: TaskListProps) {
                 removeTask={removeTask}
                 householdId={householdUsers[0].householdId!}
               />
-              <Separator className="last-of-type:hidden" />
+              <MotionSeparator
+                className="last-of-type:hidden"
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 1 }}
+                exit={{
+                  opacity: 0,
+                  height: 0,
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+              />
             </Fragment>
           ))}
         </AnimatePresence>
