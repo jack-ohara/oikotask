@@ -4,7 +4,8 @@ import {
   UserPoolClient,
   UserPoolEmail,
 } from "aws-cdk-lib/aws-cognito";
-import { ParameterDataType, StringParameter } from "aws-cdk-lib/aws-ssm";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import { SSTConfig } from "sst";
 import { NextjsSite, Table, Cognito } from "sst/constructs";
 
@@ -93,13 +94,6 @@ export default {
         },
       });
 
-      const vapidPrivateKeySecureString =
-        StringParameter.fromSecureStringParameterAttributes(
-          stack,
-          "VapidPrivateKey",
-          { parameterName: "/oikotask/vapid-private-key", version: 1 }
-        );
-
       const envVariables: Record<string, string> = {
         COGNITO_CLIENT_ID: cognitoUserPoolClient.userPoolClientId,
         COGNITO_CLIENT_SECRET:
@@ -110,7 +104,7 @@ export default {
         DDB_TABLE_NAME: oikoTable.tableName,
         NEXT_PUBLIC_VAPID_PUBLIC_KEY:
           "BDAzA6um0UFqjpU_mbK1GxJ_SH8_D663xVb1ng5ccRD0b25SvV8tPZk9Hj2c02bwrZOG0MJqgh6arq9UIMADLCw",
-        VAPID_PRIVATE_KEY: vapidPrivateKeySecureString.stringValue,
+        VAPID_PRIVATE_KEY_PARAM_NAME: "/oikotask/vapid-private-key",
       };
 
       if (isProd) {
@@ -120,6 +114,14 @@ export default {
       const site = new NextjsSite(stack, "site", {
         bind: [oikoTable],
         environment: envVariables,
+        permissions: [
+          new PolicyStatement({
+            actions: ["ssm:Get*"],
+            resources: [
+              "arn:aws:ssm:eu-west-1:534699847887:parameter/oikotask/vapid-private-key",
+            ],
+          }),
+        ],
       });
 
       stack.addOutputs({
