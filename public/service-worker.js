@@ -1,18 +1,31 @@
-const installEvent = () => {
-  self.addEventListener("install", () => {
-    console.log("service worker installed");
-  });
-};
-installEvent();
+self.addEventListener("push", (event) => {
+  const data = event.data.json();
 
-const activateEvent = () => {
-  self.addEventListener("activate", () => {
-    console.log("service worker activated");
-  });
-};
-activateEvent();
+  event.waitUntil(
+    self.registration.showNotification(data.title, {
+      body: data.message,
+      icon: "./house-icon.png",
+      renotify: true,
+      tag: data.tag ?? self.crypto.randomUUID(),
+    })
+  );
+});
 
-const fetchEvent = () => {
-  self.addEventListener("fetch", (event) => {});
-};
-fetchEvent();
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  // This looks to see if the current is already open and
+  // focuses if it is
+  event.waitUntil(
+    clients
+      .matchAll({
+        type: "window",
+      })
+      .then((clientList) => {
+        for (const client of clientList) {
+          if ("focus" in client) return client.focus();
+        }
+        if (clients.openWindow) return clients.openWindow("/");
+      })
+  );
+});

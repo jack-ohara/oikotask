@@ -17,4 +17,4 @@ export default withAuth({
   },
 });
 
-const unAuthenticatedPaths = ["/signin"];
+const unAuthenticatedPaths = ["/signin", "/api/notify"];

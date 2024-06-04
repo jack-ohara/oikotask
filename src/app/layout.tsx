@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import NextAuthProvider from "@/components/NextAuthProvider";
+import { ClientLayoutWrapper } from "@/components/ClientLayoutWrapper";
+import { PropsWithChildren } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,15 +15,11 @@ export const metadata: Metadata = {
   appleWebApp: true,
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen font-semibold`}>
-        <NextAuthProvider>
+        <ClientLayoutWrapper>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -31,7 +28,7 @@ export default async function RootLayout({
           >
             {children}
           </ThemeProvider>
-        </NextAuthProvider>
+        </ClientLayoutWrapper>
       </body>
     </html>
   );

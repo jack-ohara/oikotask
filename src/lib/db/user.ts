@@ -17,6 +17,7 @@ export type User = {
   name: string;
   displayName: string;
   colour: string;
+  pushManagerSubscriptionDetail: string;
 };
 
 export async function get(id: string): Promise<User | undefined> {
