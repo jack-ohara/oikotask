@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   }
 
   webPush.setVapidDetails(
-    "https://localhost:3000/household",
+    "https://d2omkrhunnhu2q.cloudfront.net",
     process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
     getPrivateKeyParamResult.Parameter.Value
   );
