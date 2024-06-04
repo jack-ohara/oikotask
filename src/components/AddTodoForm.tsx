@@ -85,7 +85,7 @@ export function AddTodoForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Description" {...field} autoFocus />
+                <Input placeholder="Description" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

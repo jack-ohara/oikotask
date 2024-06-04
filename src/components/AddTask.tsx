@@ -31,7 +31,7 @@ export function AddTask({ householdUsers }: AddTaskProps) {
           <AiOutlinePlus className="" />
         </span>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="pb-10">
         <DrawerHeader>
           <DrawerTitle>Add ToDo</DrawerTitle>
         </DrawerHeader>
