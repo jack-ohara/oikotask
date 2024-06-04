@@ -5,7 +5,7 @@ export async function POST() {
   webPush.setVapidDetails(
     "https://localhost:3000/household",
     process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-    "X3sC7EFuKes2Ar646-SgPmBSVRyUVzj9oPl5qZSg6DM"
+    process.env.VAPID_PRIVATE_KEY!
   );
 
   const userId = "90c0fd8b-4089-47d9-813a-ee7d043c7fae";
