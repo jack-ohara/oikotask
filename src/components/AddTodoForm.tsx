@@ -35,11 +35,6 @@ export function AddTodoForm({
   onNewTaskSubmitted,
 }: AddTodoFormProps) {
   const [taskIsBeingCreated, setTaskIsBeingCreated] = useState(false);
-  const firstFieldRef = useRef<HTMLInputElement>(null);
-
-  setTimeout(() => {
-    firstFieldRef.current?.focus();
-  }, 450);
 
   const addTodoFormSchema = z.object({
     description: z.string().min(1),
@@ -90,11 +85,7 @@ export function AddTodoForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  placeholder="Description"
-                  {...field}
-                  ref={firstFieldRef}
-                />
+                <Input placeholder="Description" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
