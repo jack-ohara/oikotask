@@ -2,7 +2,9 @@ import { getUserFromId } from "@/lib/user/get-user";
 import * as webPush from "web-push";
 import { SSM } from "@aws-sdk/client-ssm";
 
-export async function POST() {
+export async function POST(request: Request) {
+  const body = await request.json();
+
   const ssmClient = new SSM({});
 
   const getPrivateKeyParamResult = await ssmClient.getParameter({
@@ -28,8 +30,7 @@ export async function POST() {
     getPrivateKeyParamResult.Parameter.Value
   );
 
-  const userId = "90c0fd8b-4089-47d9-813a-ee7d043c7fae";
-  const user = await getUserFromId(userId);
+  const user = await getUserFromId(body.userId);
 
   if (!user) {
     return Response.json({ error: "Could not find user" }, { status: 404 });
