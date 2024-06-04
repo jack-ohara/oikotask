@@ -1,3 +1,4 @@
+import { NotificationRequester } from "@/components/NotificationRequester";
 import { Page } from "@/components/Page";
 import { SignOutButton } from "@/components/SignOutButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -15,6 +16,7 @@ export default async function SettingsPage() {
           <UserSettingsForm user={user} />
           <Separator />
           <ThemeToggle />
+          <NotificationRequester />
         </div>
         <SignOutButton />
       </div>

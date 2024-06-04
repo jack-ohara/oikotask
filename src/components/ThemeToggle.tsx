@@ -55,8 +55,6 @@ export function ThemeToggle() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <div>{notificationPermission}</div>
     </div>
   );
 }
