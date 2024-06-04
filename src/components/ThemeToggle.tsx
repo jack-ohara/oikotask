@@ -15,6 +15,17 @@ import { Label } from "@/components/ui/label";
 
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
+  const [notificationPermission, setNotifcationPermission] = React.useState("");
+
+  React.useEffect(() => {
+    async function x() {
+      const res = await Notification.requestPermission();
+
+      setNotifcationPermission(res);
+    }
+
+    x();
+  }, []);
 
   return (
     <div className="flex justify-between items-center">
@@ -44,6 +55,8 @@ export function ThemeToggle() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <div>{notificationPermission}</div>
     </div>
   );
 }
