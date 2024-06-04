@@ -21,16 +21,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ColourCircle } from "@/components/ColourCircle";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createTask } from "@/actions/create-task";
+import { Task } from "@/lib/db/task";
 
 type AddTodoFormProps = {
   householdUsers: User[];
+  onNewTaskSubmitted?: (newTask: Task) => void;
 };
 
-export function AddTodoForm({ householdUsers }: AddTodoFormProps) {
-  const router = useRouter();
+export function AddTodoForm({
+  householdUsers,
+  onNewTaskSubmitted,
+}: AddTodoFormProps) {
   const [taskIsBeingCreated, setTaskIsBeingCreated] = useState(false);
 
   const addTodoFormSchema = z.object({
@@ -57,13 +60,17 @@ export function AddTodoForm({ householdUsers }: AddTodoFormProps) {
 
     const selectedUser = householdUsers.find((u) => u.id === values.assignTo)!;
 
-    await createTask({
+    const newTask = {
       description: values.description,
       assignedTo: values.assignTo,
       assigneeColour: selectedUser.colour,
-    });
+    };
 
-    router.push("/");
+    const newTaskId = await createTask(newTask);
+
+    if (onNewTaskSubmitted) {
+      onNewTaskSubmitted({ ...newTask, id: newTaskId, isComplete: false });
+    }
   }
 
   return (
@@ -78,7 +85,7 @@ export function AddTodoForm({ householdUsers }: AddTodoFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Description" {...field} />
+                <Input placeholder="Description" {...field} autoFocus />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -111,15 +118,8 @@ export function AddTodoForm({ householdUsers }: AddTodoFormProps) {
           )}
         />
 
-        <div className="flex gap-x-3 justify-end">
-          <Button
-            variant="destructive"
-            disabled={taskIsBeingCreated}
-            onClick={() => router.back()}
-          >
-            Cancel
-          </Button>
-          <Button type="submit" loading={taskIsBeingCreated}>
+        <div className="flex justify-center">
+          <Button type="submit" loading={taskIsBeingCreated} className="grow">
             Submit
           </Button>
         </div>

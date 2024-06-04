@@ -6,15 +6,7 @@ import { User } from "@/lib/db/user";
 import { getTasksForHousehold } from "@/lib/task/get-task";
 import { TaskList } from "@/components/TaskList";
 import { TasksProvider } from "@/components/tasksContext";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AddTask } from "@/components/AddTask";
 
 function isUser(user: User | undefined): user is User {
   return !!user;
@@ -37,21 +29,7 @@ export default async function Home() {
           <h3 className="text-xl">Tasks</h3>
           <TaskList householdUsers={householdUsers} />
 
-          <div className="absolute bottom-[125px] right-6">
-            <TooltipProvider delayDuration={0}>
-              <Tooltip delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <Link href="/add-todo" prefetch>
-                    <Button size="icon" className="rounded-full">
-                      <AiOutlinePlus />
-                    </Button>
-                  </Link>
-                </TooltipTrigger>
-
-                <TooltipContent>Add a new task</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
+          <AddTask householdUsers={householdUsers} />
         </div>
       </TasksProvider>
     </Page>
