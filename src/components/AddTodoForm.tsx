@@ -21,18 +21,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ColourCircle } from "@/components/ColourCircle";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { createTask } from "@/actions/create-task";
 import { Task } from "@/lib/db/task";
+import { cn } from "@/lib/utils";
 
 type AddTodoFormProps = {
   householdUsers: User[];
   onNewTaskSubmitted?: (newTask: Task) => void;
+  className?: string;
 };
 
 export function AddTodoForm({
   householdUsers,
   onNewTaskSubmitted,
+  className,
 }: AddTodoFormProps) {
   const [taskIsBeingCreated, setTaskIsBeingCreated] = useState(false);
 
@@ -77,46 +80,51 @@ export function AddTodoForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-y-4"
+        className={cn("flex flex-col gap-y-4", className)}
       >
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input placeholder="Description" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="assignTo"
-          render={({ field }) => (
-            <FormItem>
-              <Select defaultValue={field.value} onValueChange={field.onChange}>
+        <div className="flex flex-col gap-y-4">
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a user to assign" />
-                  </SelectTrigger>
+                  <Input placeholder="Description" {...field} />
                 </FormControl>
-                <SelectContent>
-                  {householdUsers.map((u) => (
-                    <SelectItem value={u.id} key={u.id}>
-                      <span className="flex gap-2 items-center">
-                        <ColourCircle colour={u.colour} size={16} />
-                        <span>{u.displayName}</span>
-                      </span>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
-        />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="assignTo"
+            render={({ field }) => (
+              <FormItem>
+                <Select
+                  defaultValue={field.value}
+                  onValueChange={field.onChange}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a user to assign" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {householdUsers.map((u) => (
+                      <SelectItem value={u.id} key={u.id}>
+                        <span className="flex gap-2 items-center">
+                          <ColourCircle colour={u.colour} size={16} />
+                          <span>{u.displayName}</span>
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+        </div>
 
         <div className="flex justify-center">
           <Button type="submit" loading={taskIsBeingCreated} className="grow">

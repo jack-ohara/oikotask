@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconType } from "react-icons";
-import { FaListCheck, FaUsers } from "react-icons/fa6";
+import { FaListCheck, FaUsers, FaCalendarCheck } from "react-icons/fa6";
 import { IoIosSettings } from "react-icons/io";
 
 type NavItemProps = {
@@ -21,7 +21,7 @@ function NavItem({ href, Icon, label }: NavItemProps) {
   const isActive = href === pathname || activeRouteMap[pathname] === href;
 
   return (
-    <li>
+    <li className="basis-0 grow">
       <Link
         href={href}
         className={`flex flex-col items-center gap-1 ${
@@ -38,8 +38,9 @@ function NavItem({ href, Icon, label }: NavItemProps) {
 export function Navigation() {
   return (
     <nav>
-      <ul className="flex justify-around">
+      <ul className="flex justify-around items-start">
         <NavItem href="/" Icon={FaListCheck} label="ToDo list" />
+        <NavItem href="/schedule" Icon={FaCalendarCheck} label="Schedule" />
         <NavItem href="/household" Icon={FaUsers} label="Household" />
         <NavItem href="/settings" Icon={IoIosSettings} label="Settings" />
       </ul>

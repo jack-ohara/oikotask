@@ -31,18 +31,19 @@ export function AddTask({ householdUsers }: AddTaskProps) {
           <AiOutlinePlus className="" />
         </span>
       </DrawerTrigger>
-      <DrawerContent className="pb-10">
+      <DrawerContent className="pb-10 h-[calc(100vh-60px)]">
         <DrawerHeader>
           <DrawerTitle>Add ToDo</DrawerTitle>
         </DrawerHeader>
 
-        <div className="p-4 pb-0">
+        <div className="p-4 pb-0 grow">
           <AddTodoForm
             householdUsers={householdUsers}
             onNewTaskSubmitted={(newTask) => {
               addTask(newTask);
               setDrawerIsOpen(false);
             }}
+            className="h-full justify-between"
           />
         </div>
 
