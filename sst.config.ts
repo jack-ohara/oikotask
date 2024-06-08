@@ -5,9 +5,8 @@ import {
   UserPoolEmail,
 } from "aws-cdk-lib/aws-cognito";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import { SSTConfig } from "sst";
-import { NextjsSite, Table, Cognito } from "sst/constructs";
+import { NextjsSite, Table, Cognito, Function } from "sst/constructs";
 
 export default {
   config(_input) {
@@ -122,6 +121,11 @@ export default {
             ],
           }),
         ],
+      });
+
+      const notifierFunction = new Function(stack, "pushNotificationFunction", {
+        handler: "src/lambdas/send-push-notification.handler",
+        functionName: `oikotask-${process.env.SST_STAGE}-send-push-notification`,
       });
 
       stack.addOutputs({
