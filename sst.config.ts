@@ -126,12 +126,7 @@ export default {
       const notifierFunction = new Function(stack, "pushNotificationFunction", {
         handler: "src/lambdas/send-push-notification.handler",
         functionName: `oikotask-${process.env.SST_STAGE}-send-push-notification`,
-        environment: {
-          VAPID_PUBLIC_KEY:
-            "BDAzA6um0UFqjpU_mbK1GxJ_SH8_D663xVb1ng5ccRD0b25SvV8tPZk9Hj2c02bwrZOG0MJqgh6arq9UIMADLCw",
-          VAPID_PRIVATE_KEY_PARAM_NAME:
-            envVariables.VAPID_PRIVATE_KEY_PARAM_NAME,
-        },
+        environment: envVariables,
         permissions: [
           new PolicyStatement({
             actions: ["ssm:Get*"],
