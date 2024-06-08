@@ -4,9 +4,13 @@ import { get as getUserFromDb } from "../lib/db/user";
 
 type ScheduleEvent = {
   userId: string;
+  notification: {
+    title: string;
+    message: string;
+  };
 };
 
-export async function handler({ userId }: ScheduleEvent) {
+export async function handler({ userId, notification }: ScheduleEvent) {
   const ssmClient = new SSM({});
 
   const getPrivateKeyParamResult = await ssmClient.getParameter({
@@ -40,10 +44,15 @@ export async function handler({ userId }: ScheduleEvent) {
 
   const subscription = JSON.parse(user.pushManagerSubscriptionDetail);
 
+  const actualNotification = {
+    title: notification.title ?? "Test title",
+    message: notification.message ?? "Hello world!",
+  };
+
   try {
     await webPush.sendNotification(
       subscription,
-      JSON.stringify({ title: "Test title", message: "Hello world!" })
+      JSON.stringify(actualNotification)
     );
 
     console.log("Sending notification");
