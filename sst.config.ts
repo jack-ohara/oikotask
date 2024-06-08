@@ -130,6 +130,14 @@ export default {
           VAPID_PRIVATE_KEY_PARAM_NAME:
             envVariables.VAPID_PRIVATE_KEY_PARAM_NAME,
         },
+        permissions: [
+          new PolicyStatement({
+            actions: ["ssm:Get*"],
+            resources: [
+              "arn:aws:ssm:eu-west-1:534699847887:parameter/oikotask/vapid-private-key",
+            ],
+          }),
+        ],
       });
 
       stack.addOutputs({

@@ -2,9 +2,11 @@ import * as webPush from "web-push";
 import { SSM } from "@aws-sdk/client-ssm";
 import { get as getUserFromDb } from "../lib/db/user";
 
-export async function handler(event: unknown) {
-  console.log({ event });
+type ScheduleEvent = {
+  userId: string;
+};
 
+export async function handler({ userId }: ScheduleEvent) {
   const ssmClient = new SSM({});
 
   const getPrivateKeyParamResult = await ssmClient.getParameter({
@@ -29,8 +31,6 @@ export async function handler(event: unknown) {
     process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
     getPrivateKeyParamResult.Parameter.Value
   );
-
-  const userId = "ffe061bd-b8e9-4fe1-bc7d-dfce61725b0b";
 
   const user = await getUserFromDb(userId);
 
