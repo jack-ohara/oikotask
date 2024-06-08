@@ -126,6 +126,10 @@ export default {
       const notifierFunction = new Function(stack, "pushNotificationFunction", {
         handler: "src/lambdas/send-push-notification.handler",
         functionName: `oikotask-${process.env.SST_STAGE}-send-push-notification`,
+        environment: {
+          VAPID_PRIVATE_KEY_PARAM_NAME:
+            envVariables.VAPID_PRIVATE_KEY_PARAM_NAME,
+        },
       });
 
       stack.addOutputs({
