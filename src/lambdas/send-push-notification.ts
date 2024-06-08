@@ -28,7 +28,7 @@ export async function handler({ userId }: ScheduleEvent) {
 
   webPush.setVapidDetails(
     "https://d2omkrhunnhu2q.cloudfront.net",
-    process.env.VAPID_PUBLIC_KEY!,
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
     getPrivateKeyParamResult.Parameter.Value
   );
 
