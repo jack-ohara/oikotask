@@ -124,6 +124,12 @@ export default {
             actions: ["scheduler:Get*", "scheduler:Create*"],
             resources: ["arn:aws:scheduler:eu-west-1:534699847887*"],
           }),
+          new PolicyStatement({
+            actions: ["iam:PassRole"],
+            resources: [
+              "arn:aws:iam::534699847887:role/service-role/Amazon_EventBridge_Scheduler_LAMBDA_092455dcfa",
+            ],
+          }),
         ],
       });
 
