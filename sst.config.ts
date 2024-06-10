@@ -120,6 +120,10 @@ export default {
               "arn:aws:ssm:eu-west-1:534699847887:parameter/oikotask/vapid-private-key",
             ],
           }),
+          new PolicyStatement({
+            actions: ["scheduler:Get*", "scheduler:Create*"],
+            resources: ["arn:aws:scheduler:eu-west-1:534699847887*"],
+          }),
         ],
       });
 
