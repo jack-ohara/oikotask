@@ -20,7 +20,6 @@ type AddTaskProps = {
 };
 
 export function AddScheduledTask({ householdUsers }: AddTaskProps) {
-  console.log("rendering...");
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
   return (

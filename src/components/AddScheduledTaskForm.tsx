@@ -10,6 +10,7 @@ import {
   FormField,
   FormItem,
   FormMessage,
+  FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,9 +22,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ColourCircle } from "@/components/ColourCircle";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { createScheduledTask } from "@/actions/create-scheduled-task";
+import { Calendar } from "@/components/ui/calendar";
+import { addDays, addMinutes, format, isToday } from "date-fns";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { CalendarIcon } from "lucide-react";
 
 type AddTodoFormProps = {
   householdUsers: User[];
@@ -47,9 +57,9 @@ export function AddScheduledTaskForm({
           householdUsers.some((u) => u.id.toLowerCase() === val.toLowerCase()),
         "The assigned user must be a valid member of your household"
       ),
-    // completionDate: z
-    //   .date()
-    //   .min(new Date(), "Cannot set a completion date that's in the past"),
+    completionDate: z.date(),
+    completionTime: z.string(),
+    // .min(new Date(), "Cannot set a completion date that's in the past"),
   });
 
   const form = useForm<z.infer<typeof addTodoFormSchema>>({
@@ -57,6 +67,8 @@ export function AddScheduledTaskForm({
     defaultValues: {
       description: "",
       assignTo: householdUsers[0].id,
+      completionDate: addDays(new Date(), 1),
+      completionTime: format(new Date(), "kk:mm"),
     },
   });
 
@@ -66,8 +78,11 @@ export function AddScheduledTaskForm({
 
     const selectedUser = householdUsers.find((u) => u.id === values.assignTo)!;
 
-    const d = new Date();
-    d.setMinutes(d.getMinutes() + 2);
+    const d = new Date(values.completionDate);
+    const [hours, minutes] = values.completionTime.split(":");
+    d.setHours(Number(hours), Number(minutes), 0);
+
+    console.log({ d });
 
     const newScheduleTask = {
       description: values.description,
@@ -83,6 +98,24 @@ export function AddScheduledTaskForm({
     }
     setTaskIsBeingCreated(false);
   }
+
+  const [watchCompletionDate, watchCompletionTime] = form.watch([
+    "completionDate",
+    "completionTime",
+  ]);
+
+  const displayCompletionData = useMemo(
+    () => `${format(watchCompletionDate, "PPP")} ${watchCompletionTime}`,
+    [watchCompletionDate, watchCompletionTime]
+  );
+
+  const minCompletionTime = useMemo(
+    () =>
+      isToday(watchCompletionDate)
+        ? format(addMinutes(new Date(), 1), "kk:mm")
+        : undefined,
+    [watchCompletionDate]
+  );
 
   return (
     <Form {...form}>
@@ -132,6 +165,49 @@ export function AddScheduledTaskForm({
               </FormItem>
             )}
           />
+
+          <FormLabel>Completion date</FormLabel>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="scheduled-date">
+              <AccordionTrigger>
+                <CalendarIcon /> {displayCompletionData}
+              </AccordionTrigger>
+
+              <AccordionContent className="flex flex-col items-center">
+                <FormField
+                  control={form.control}
+                  name="completionDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        initialFocus
+                        fromDate={new Date()}
+                      />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="completionTime"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Input
+                        className="max-w-min"
+                        type="time"
+                        onChange={field.onChange}
+                        value={field.value}
+                        min={minCompletionTime}
+                      />
+                    </FormItem>
+                  )}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
 
         <div className="flex justify-center">
