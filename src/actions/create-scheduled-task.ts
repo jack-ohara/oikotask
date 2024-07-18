@@ -89,8 +89,6 @@ async function scheduleTaskReminder(
       ActionAfterCompletion: "DELETE",
     })
   );
-
-  console.log({ createScheduleResult: result });
 }
 
 async function getScheduleGroup(

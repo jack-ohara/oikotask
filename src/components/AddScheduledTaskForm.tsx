@@ -73,7 +73,6 @@ export function AddScheduledTaskForm({
   });
 
   async function onSubmit(values: z.infer<typeof addTodoFormSchema>) {
-    console.log({ values });
     setTaskIsBeingCreated(true);
 
     const selectedUser = householdUsers.find((u) => u.id === values.assignTo)!;
@@ -81,8 +80,6 @@ export function AddScheduledTaskForm({
     const d = new Date(values.completionDate);
     const [hours, minutes] = values.completionTime.split(":");
     d.setHours(Number(hours), Number(minutes), 0);
-
-    console.log({ d });
 
     const newScheduleTask = {
       description: values.description,

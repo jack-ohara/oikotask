@@ -38,6 +38,9 @@ export function AddScheduledTask({ householdUsers }: AddTaskProps) {
           <AddScheduledTaskForm
             householdUsers={householdUsers}
             className="h-full justify-between"
+            onNewTaskSubmitted={() => {
+              setDrawerIsOpen(false);
+            }}
           />
         </div>
 

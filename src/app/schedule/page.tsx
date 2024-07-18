@@ -1,7 +1,9 @@
 import { Page } from "@/components";
 import { AddScheduledTask } from "@/components/AddScheduledTask";
+import { ScheduleList } from "@/components/ScheduleList";
 import { User } from "@/lib/db/user";
 import { getHousehold } from "@/lib/household/get-household";
+import { getScheduleForHousehold } from "@/lib/task/get-scheduled-task";
 import { getUserFromId } from "@/lib/user/get-user";
 import { redirect } from "next/navigation";
 
@@ -14,12 +16,14 @@ export default async function SchedulePage() {
 
   if (!household) redirect("/household");
 
-  const householdUsers = (
-    await Promise.all(household.users.map(getUserFromId))
-  ).filter(isUser);
+  const [schedule, householdUsers] = await Promise.all([
+    getScheduleForHousehold(household.id),
+    (await Promise.all(household.users.map(getUserFromId))).filter(isUser),
+  ]);
 
   return (
     <Page title="Schedule">
+      <ScheduleList schedule={schedule} householdId={household.id} />
       <AddScheduledTask householdUsers={householdUsers} />
     </Page>
   );
