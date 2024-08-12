@@ -64,8 +64,7 @@ async function scheduleTaskReminder(
         Input: JSON.stringify({
           userId: newTask.assignedTo,
           notification: {
-            title: "Task reminder",
-            message: newTask.description,
+            title: newTask.description,
           },
         }),
       },
