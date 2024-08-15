@@ -6,12 +6,7 @@ self.addEventListener("push", (event) => {
       body: data.message,
       icon: "./logo_192x192.png",
       tag: data.tag ?? self.crypto.randomUUID(),
-      actions: [
-        {
-          action: "complete",
-          title: "Mark completed",
-        },
-      ],
+      actions: [{ action: "complete", title: "Mark completed" }],
     })
   );
 });
