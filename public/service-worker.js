@@ -5,7 +5,6 @@ self.addEventListener("push", (event) => {
     self.registration.showNotification(data.title, {
       body: data.message,
       icon: "./logo_192x192.png",
-      renotify: true,
       tag: data.tag ?? self.crypto.randomUUID(),
     })
   );

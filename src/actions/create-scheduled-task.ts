@@ -65,6 +65,7 @@ async function scheduleTaskReminder(
           userId: newTask.assignedTo,
           notification: {
             title: newTask.description,
+            message: "Have you got this done yet?",
           },
         }),
       },

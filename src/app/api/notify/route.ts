@@ -2,6 +2,8 @@ import { getUserFromId } from "@/lib/user/get-user";
 import * as webPush from "web-push";
 import { SSM } from "@aws-sdk/client-ssm";
 
+// Test endpoint for sending notifications
+
 export async function POST(request: Request) {
   const body = await request.json();
 
